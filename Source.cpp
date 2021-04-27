@@ -24,32 +24,40 @@ int main()
 {
 	SetConsoleCP(1251); //русификация консоли
 	SetConsoleOutputCP(1251);
+	int tests = 6;
+	for (int t = 0; t < tests; t++) {
+		cout << "Тест: " << t + 1<<"\n";
+		string file("Test"); //откуда будем считывать данные
+		file += to_string(t+1) + ".txt";
 
-	string file("Input.txt"); //откуда будем считывать данные
-	vector<string> X;
-	vector<FD> F;
-	vector<FD> G;
-	ReadFile(file, X, F);
-	NPOK(F, G);
-	if (G.size() == 0)
-		cout << "0\n";
+		vector<string> X;
+		vector<FD> F;
+		vector<FD> G;
+		ReadFile(file, X, F);
+		NPOK(F, G);
+		cout << "Неизбыточное покрытие:\n";
+		if (G.size() == 0)
+			cout << "0\n";
 
-	for (int i = 0; i < G.size(); i++)
-	{
-		if (G[i].left[0] == "")
-			cout << "0";
-		else {
-			for(int j=0; j< G[i].left.size(); j++)
-				cout << G[i].left[j];
-		}
-		cout << "->";
-		if (G[i].right[0] == "")
-			cout << "0";
-		else {
-			for(int j=0; j < G[i].right.size(); j++)
-				cout << G[i].right[j] << endl;
+		for (int i = 0; i < G.size(); i++)
+		{
+			if (G[i].left[0] == "")
+				cout << "0";
+			else {
+				for (int j = 0; j < G[i].left.size(); j++)
+					cout << G[i].left[j];
+			}
+			cout << "->";
+			if (G[i].right[0] == "")
+				cout << "0";
+			else {
+				for (int j = 0; j < G[i].right.size(); j++)
+					cout << G[i].right[j];
+			}
+			cout << "\n";
 		}
 	}
+	
 	
 	system("pause");
 	return 0;
@@ -121,6 +129,8 @@ void ReadFile(string& name, vector<string>& X, vector<FD>& F) {
 				else {
 					break;
 				}
+			if (A == "0")
+				A.clear();
 			FLeft.insert(A);
 			A.clear();
 			j++;
@@ -149,6 +159,8 @@ void ReadFile(string& name, vector<string>& X, vector<FD>& F) {
 				else {
 					break;
 				}
+			if (A == "0")
+				A.clear();
 			FRight.insert(A);
 			A.clear();
 			j++;
@@ -189,6 +201,10 @@ void SX(const vector<string>& X, const vector<FD>& F, vector<string>& X_plus) {
 		}
 	}
 	X_plus = NEW;
+	X_plus.push_back("");
+	set<string> XP(X_plus.begin(), X_plus.end());
+	X_plus.clear();
+	X_plus.assign(XP.begin(), XP.end());
 }
 
 bool PRF(const FD& X_struct, const vector<FD>& F)
