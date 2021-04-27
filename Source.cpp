@@ -15,7 +15,7 @@ struct FD//Функциональная зависимость
 	FD(const vector<string>& _l, const vector<string>& _r) : left(_l), right(_r) {};
 };
 
-void ReadFile(string& name, string& X, vector<FD>& F);
+void ReadFile(string& name, vector<string>& X, vector<FD>& F);
 void SX(const string& X, const vector<FD>& F, string& X_plus);
 bool PRF(const FD& X_struct, const vector<FD>& F);
 void NPOK(const vector<FD>& F, vector<FD>& G);
@@ -26,13 +26,14 @@ int main()
 	SetConsoleOutputCP(1251);
 
 	string file("Input.txt"); //откуда будем считывать данные
-	string X;
+	vector<string> X;
 	vector<FD> F;
 	vector<FD> G;
 	ReadFile(file, X, F);
-	NPOK(F, G);
+	//NPOK(F, G);
 	if (G.size() == 0)
 		cout << "0\n";
+	/*
 	for (int i = 0; i < G.size(); i++)
 	{
 		if (G[i].left[0] == "")
@@ -45,14 +46,14 @@ int main()
 		else
 			cout << G[i].right << endl;
 	}
-
+	*/
 	system("pause");
 	return 0;
 }
 
 //функция к алгоритмам никак не относится
 //она лишь считывает файл
-void ReadFile(string& name, string& X, vector<FD>& F) {
+void ReadFile(string& name, vector<string>& X, vector<FD>& F) {
 	set<string> tX;
 	ifstream In(name);
 	if (!In) {
@@ -89,7 +90,7 @@ void ReadFile(string& name, string& X, vector<FD>& F) {
 		A.clear();
 		j++;
 	}
-
+	X.assign(tX.begin(), tX.end());
 	int currentF = 0;
 	while (!In.eof()) {
 
@@ -148,11 +149,14 @@ void ReadFile(string& name, string& X, vector<FD>& F) {
 			A.clear();
 			j++;
 		}
-
-		F.push_back(FD(FLeft, FRight));
+		vector<string> left;
+		vector<string> right;
+		left.assign(FLeft.begin(), FLeft.end());
+		right.assign(FRight.begin(), FRight.end());
+		F.push_back(FD(left, right));
 	}
 }
-
+/*
 void SX(const string& X, const vector<FD>& F, string& X_plus) {
 	string OLD = "";
 	string NEW = X;
@@ -220,3 +224,4 @@ void NPOK(const vector<FD>& F, vector<FD>& G)
 			G = G_minus;
 	}
 }
+*/
