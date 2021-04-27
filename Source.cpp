@@ -5,12 +5,13 @@
 #include <algorithm>
 #include <fstream>
 #include <iterator>
+#include <set>
 using namespace std;
 
 struct FD//Функциональная зависимость 
 {
-	string left;
-	string right;
+	vector<string> left;
+	vector<string> right;
 	FD(const string& _l, const string& _r) : left(_l), right(_r) {};
 };
 
@@ -57,55 +58,97 @@ void ReadFile(string& name, string& X, vector<FD>& F) {
 		cout << "Файл не найден!";
 		exit(-1);
 	}
-	In >> X; //считываем множество атрибутов до \n
-	X.shrink_to_fit();
-	FD Func("", "");
-	string input_1 = "";
-	string input_2 = "";
-	char ch = 0;
-	cout << "Считал из файла:\n";
-	while (!In.eof()) {
-		input_1 = "";
-		input_2 = "";
-		ch = 0;
-		while (true) {
-			In >> ch;
-			if (ch == '-')
-				break;
-			input_1 += ch;
-			if (ch == '0' and In.eof()) {
-				input_1.clear();
+	//читаем атрибуты
+	char ch;
+	string buff;
+	getline(In, buff, '\n');
+	for (int i = 0; i < buff.length(); i++) {
+		if (buff[i] == ' ') {
+			buff.erase(i, 1);
+			i--;
+		}
+	}
+	//атрибуты в buff
+	//разбиваем buff на отдельные атрибуты
+	string A;
+	int len = buff.length();
+	int j = 0;
+	while (j < len) {
+		A += buff[j];
+		while (j < len - 1)
+			if (buff[j + 1] >= '0' && buff[j + 1] <= '9') {
+				j++;
+				A += buff[j];
+			}
+			else {
 				break;
 			}
-		}
-		if (input_1 == "")
-			cout << '0';
-		else
-			cout << input_1 << '-';
-		if (!In.eof()) {
-			In >> ch;
-			cout << ch;
-			In >> input_2;
-			cout << input_2;
-		}
-		else {
-			input_2.clear();
-			In >> ch;
-		}
-		if (input_1 == "0")
-			input_1.clear();
-		if (input_2 == "0")
-			input_2.clear();
 
-		F.push_back(FD(input_1, input_2));
-		cout << "\n";
+		X.insert(A);
+		A.clear();
+		j++;
 	}
-	for (int i = 0; i < F.size(); i++) {
-		F[i].left.shrink_to_fit();
-		F[i].right.shrink_to_fit();
+
+	int currentF = 0;
+	while (!In.eof()) {
+
+		buff.clear();
+		getline(In, buff, '-');
+		for (int i = 0; i < buff.length(); i++) {
+			if (buff[i] == ' ') {
+				buff.erase(i, 1);
+				i--;
+			}
+		}
+		//разбиваем buff на отдельные атрибуты
+		string A;
+		set<string> FLeft;
+		int len = buff.length();
+		int j = 0;
+		while (j < len) {
+			A += buff[j];
+			while (j < len - 1)
+				if (buff[j + 1] >= '0' && buff[j + 1] <= '9') {
+					j++;
+					A += buff[j];
+				}
+				else {
+					break;
+				}
+			FLeft.insert(A);
+			A.clear();
+			j++;
+		}
+		In.get(ch);
+		buff.clear();
+		getline(In, buff, '\n');
+		for (int i = 0; i < buff.length(); i++) {
+			if (buff[i] == ' ') {
+				buff.erase(i, 1);
+				i--;
+			}
+		}
+		//разбиваем buff на отдельные атрибуты
+		A.clear();
+		set<string> FRight;
+		len = buff.length();
+		j = 0;
+		while (j < len) {
+			A += buff[j];
+			while (j < len - 1)
+				if (buff[j + 1] >= '0' && buff[j + 1] <= '9') {
+					j++;
+					A += buff[j];
+				}
+				else {
+					break;
+				}
+			FRight.insert(A);
+			A.clear();
+			j++;
+		}
+		F.push_back(FD(FLeft, FRight));
 	}
-	F.shrink_to_fit();
-	cout << "\n\n";
 }
 
 void SX(const string& X, const vector<FD>& F, string& X_plus) {
