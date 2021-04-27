@@ -23,28 +23,32 @@ int main()
 {
 	SetConsoleCP(1251); //русификаци€ консоли
 	SetConsoleOutputCP(1251);
-
-	string file("Input.txt"); //откуда будем считывать данные
-	string X;
-	vector<FD> F;
-	vector<FD> G;
-	ReadFile(file, X, F);
-	NPOK(F, G);
-	if (G.size() == 0)
-		cout << "0\n";
-	for (int i = 0; i < G.size(); i++)
-	{
-		if (G[i].left == "")
-			cout << "0";
-		else
-			cout << G[i].left;
-		cout << "->";
-		if (G[i].right == "")
-			cout << "0";
-		else
-			cout << G[i].right << endl;
+	int tests = 6; //число тестов
+	for (int i = 0; i < tests; i++) {
+		cout << "“ест" << i + 1<<'\n';
+		string file("Test" + to_string(i + 1) + ".txt"); //откуда будем считывать данные
+		string X;
+		vector<FD> F;
+		vector<FD> G;
+		ReadFile(file, X, F);
+		NPOK(F, G);
+		cout << "Ќеизбыточное покрытие:\n";
+		if (G.size() == 0)
+			cout << "0\n";
+		for (int i = 0; i < G.size(); i++)
+		{
+			if (G[i].left == "")
+				cout << "0";
+			else
+				cout << G[i].left;
+			cout << "->";
+			if (G[i].right == "")
+				cout << "0";
+			else
+				cout << G[i].right << endl;
+		}
+		cout << "\n\n";
 	}
-
 	system("pause");
 	return 0;
 }
@@ -105,7 +109,7 @@ void ReadFile(string& name, string& X, vector<FD>& F) {
 		F[i].right.shrink_to_fit();
 	}
 	F.shrink_to_fit();
-	cout << "\n\n";
+	cout << "\n";
 }
 
 void SX(const string& X, const vector<FD>& F, string& X_plus) {
@@ -145,7 +149,7 @@ bool PRF(const FD& X_struct, const vector<FD>& F)
 	string X_plus;
 	string X = X_struct.left;
 	SX(X, F, X_plus);
-	if (std::includes(X_plus.begin(), X_plus.end(), X_struct.right.begin(), X_struct.right.end()))//строка содержит
+	if (includes(X_plus.begin(), X_plus.end(), X_struct.right.begin(), X_struct.right.end()))//строка содержит
 		return true;
 	else
 		return false;
