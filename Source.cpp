@@ -18,7 +18,22 @@ void ReadFile(string& name, string& X, vector<FD>& F);
 void SX(const string& X, const vector<FD>& F, string& X_plus);
 bool PRF(const FD& X_struct, const vector<FD>& F);
 void NPOK(const vector<FD>& F, vector<FD>& G);
-
+void printFDV(vector<FD> &in) {
+	if (in.size() == 0)
+		cout << "0\n";
+	for (int i = 0; i < in.size(); i++)
+	{
+		if (in[i].left == "")
+			cout << "0";
+		else
+			cout << in[i].left;
+		cout << "->";
+		if (in[i].right == "")
+			cout << "0";
+		else
+			cout << in[i].right << endl;
+	}
+}
 int main()
 {
 	SetConsoleCP(1251); //русификация консоли
@@ -33,20 +48,7 @@ int main()
 		ReadFile(file, X, F);
 		NPOK(F, G);
 		cout << "Неизбыточное покрытие:\n";
-		if (G.size() == 0)
-			cout << "0\n";
-		for (int i = 0; i < G.size(); i++)
-		{
-			if (G[i].left == "")
-				cout << "0";
-			else
-				cout << G[i].left;
-			cout << "->";
-			if (G[i].right == "")
-				cout << "0";
-			else
-				cout << G[i].right << endl;
-		}
+		printFDV(G);
 		cout << "\n\n";
 	}
 	system("pause");
