@@ -12,7 +12,7 @@ struct FD//Функциональная зависимость
 {
 	vector<string> left;
 	vector<string> right;
-	FD(const string& _l, const string& _r) : left(_l), right(_r) {};
+	FD(const vector<string>& _l, const vector<string>& _r) : left(_l), right(_r) {};
 };
 
 void ReadFile(string& name, string& X, vector<FD>& F);
@@ -35,7 +35,7 @@ int main()
 		cout << "0\n";
 	for (int i = 0; i < G.size(); i++)
 	{
-		if (G[i].left == "")
+		if (G[i].left[0] == "")
 			cout << "0";
 		else
 			cout << G[i].left;
@@ -53,6 +53,7 @@ int main()
 //функция к алгоритмам никак не относится
 //она лишь считывает файл
 void ReadFile(string& name, string& X, vector<FD>& F) {
+	set<string> tX;
 	ifstream In(name);
 	if (!In) {
 		cout << "Файл не найден!";
@@ -84,7 +85,7 @@ void ReadFile(string& name, string& X, vector<FD>& F) {
 				break;
 			}
 
-		X.insert(A);
+		tX.insert(A);
 		A.clear();
 		j++;
 	}
@@ -147,6 +148,7 @@ void ReadFile(string& name, string& X, vector<FD>& F) {
 			A.clear();
 			j++;
 		}
+
 		F.push_back(FD(FLeft, FRight));
 	}
 }
