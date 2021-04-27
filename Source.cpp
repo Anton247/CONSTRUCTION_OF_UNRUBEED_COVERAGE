@@ -14,10 +14,11 @@ struct FD//Функциональная зависимость
 	FD(const string& _l, const string& _r) : left(_l), right(_r) {};
 };
 
-void ReadFile(string& name, string& X, vector<FD>& F);
+void ReadFile(string& name, vector<FD>& F);
 void SX(const string& X, const vector<FD>& F, string& X_plus);
 bool PRF(const FD& X_struct, const vector<FD>& F);
 void NPOK(const vector<FD>& F, vector<FD>& G);
+//вывод вектора функциональных зависимостей
 void printFDV(vector<FD> &in) {
 	if (in.size() == 0)
 		cout << "0\n";
@@ -34,18 +35,18 @@ void printFDV(vector<FD> &in) {
 			cout << in[i].right << endl;
 	}
 }
+
 int main()
 {
 	SetConsoleCP(1251); //русификация консоли
 	SetConsoleOutputCP(1251);
 	int tests = 6; //число тестов
 	for (int i = 0; i < tests; i++) {
-		cout << "Тест" << i + 1<<'\n';
+		cout << "Тест" << i + 1 << '\n';
 		string file("Test" + to_string(i + 1) + ".txt"); //откуда будем считывать данные
-		string X;
 		vector<FD> F;
 		vector<FD> G;
-		ReadFile(file, X, F);
+		ReadFile(file, F);
 		NPOK(F, G);
 		cout << "Неизбыточное покрытие:\n";
 		printFDV(G);
@@ -57,7 +58,8 @@ int main()
 
 //функция к алгоритмам никак не относится
 //она лишь считывает файл
-void ReadFile(string& name, string& X, vector<FD>& F) {
+void ReadFile(string& name, vector<FD>& F) {
+	string X;
 	ifstream In(name);
 	if (!In) {
 		cout << "Файл не найден!";
