@@ -16,7 +16,7 @@ struct FD//Функциональная зависимость
 };
 
 void ReadFile(string& name, vector<string>& X, vector<FD>& F);
-void SX(const string& X, const vector<FD>& F, string& X_plus);
+void SX(const vector<string>& X, const vector<FD>& F, vector<string>& X_plus);
 bool PRF(const FD& X_struct, const vector<FD>& F);
 void NPOK(const vector<FD>& F, vector<FD>& G);
 
@@ -30,23 +30,27 @@ int main()
 	vector<FD> F;
 	vector<FD> G;
 	ReadFile(file, X, F);
-	//NPOK(F, G);
+	NPOK(F, G);
 	if (G.size() == 0)
 		cout << "0\n";
-	/*
+
 	for (int i = 0; i < G.size(); i++)
 	{
 		if (G[i].left[0] == "")
 			cout << "0";
-		else
-			cout << G[i].left;
+		else {
+			for(int j=0; j< G[i].left.size(); j++)
+				cout << G[i].left[j];
+		}
 		cout << "->";
-		if (G[i].right == "")
+		if (G[i].right[0] == "")
 			cout << "0";
-		else
-			cout << G[i].right << endl;
+		else {
+			for(int j=0; j < G[i].right.size(); j++)
+				cout << G[i].right[j] << endl;
+		}
 	}
-	*/
+	
 	system("pause");
 	return 0;
 }
@@ -156,19 +160,17 @@ void ReadFile(string& name, vector<string>& X, vector<FD>& F) {
 		F.push_back(FD(left, right));
 	}
 }
-/*
-void SX(const string& X, const vector<FD>& F, string& X_plus) {
-	string OLD = "";
-	string NEW = X;
-	string Q = "";
-	string A;
-	string B;
-	string C;
-	int k = 0;
+
+void SX(const vector<string>& X, const vector<FD>& F, vector<string>& X_plus) {
+	vector<string> OLD;
+	vector<string> NEW = X;
+	vector<string> Q;
+	vector<string> A;
+	vector<string> B;
+	vector<string> C;
 	while (NEW != OLD)
 	{
-		Q = "";
-		k++;
+		Q.clear();
 		OLD = NEW;
 		for (int i = 0; i < F.size(); i++)
 		{
@@ -181,7 +183,7 @@ void SX(const string& X, const vector<FD>& F, string& X_plus) {
 			if (includes(A.begin(), A.end(), B.begin(), B.end()))//строка содержит
 			{
 				Q.clear();
-				set_union(A.begin(), A.end(), C.begin(), C.end(), std::back_inserter(Q));//объединение множеств
+				set_union(A.begin(), A.end(), C.begin(), C.end(), back_inserter(Q));//объединение множеств
 				NEW = Q;
 			}
 		}
@@ -191,10 +193,10 @@ void SX(const string& X, const vector<FD>& F, string& X_plus) {
 
 bool PRF(const FD& X_struct, const vector<FD>& F)
 {
-	string X_plus;
-	string X = X_struct.left;
+	vector<string> X_plus;
+	vector<string> X = X_struct.left;
 	SX(X, F, X_plus);
-	if (std::includes(X_plus.begin(), X_plus.end(), X_struct.right.begin(), X_struct.right.end()))//строка содержит
+	if (includes(X_plus.begin(), X_plus.end(), X_struct.right.begin(), X_struct.right.end()))//строка содержит
 		return true;
 	else
 		return false;
@@ -203,7 +205,7 @@ bool PRF(const FD& X_struct, const vector<FD>& F)
 void NPOK(const vector<FD>& F, vector<FD>& G)
 {
 	G = F;
-	vector<FD> G_minus = F;
+	vector<FD> G_minus;
 	for (int i = 0; i < F.size(); i++)
 	{
 		G_minus = G;
@@ -224,4 +226,3 @@ void NPOK(const vector<FD>& F, vector<FD>& G)
 			G = G_minus;
 	}
 }
-*/
